@@ -351,7 +351,7 @@
     </div>
     <div class="section">
       <div class="section-header">
-        <h2>🧲 Downloads & Releases</h2>
+        <h2>🧲 Downloads & PyPI</h2>
         <span class="section-badge" style="background:rgba(245,158,11,0.12);color:var(--accent-orange)">Distribution</span>
       </div>
       <div id="downloadsChart" class="chart-box"></div>
@@ -380,7 +380,7 @@
     <div class="source-grid">
       <a href="https://github.com/NVIDIA/structured-data-models" target="_blank" class="source-item">
         <div class="source-icon" style="background:rgba(255,255,255,0.08)">🐙</div>
-        <div><div class="source-name">NVIDIA/structured-data-models</div><div class="source-url">github.com · Stars, Forks, Issues, Release DLs</div></div>
+        <div><div class="source-name">NVIDIA/structured-data-models</div><div class="source-url">github.com · Stars, Forks, Issues | pypi.org · Downloads</div></div>
       </a>
       <a href="https://huggingface.co/nvidia/Kumo-Tabular" target="_blank" class="source-item">
         <div class="source-icon" style="background:rgba(168,85,247,0.1)">🤗</div>
@@ -439,7 +439,7 @@ const CARDS = [
   { key: 'gh_stars',                icon: '⭐', label: 'Stars (GH)',         source: 'GitHub',      accent: '#76b900' },
   { key: 'gh_forks',               icon: '🍴', label: 'Forks (GH)',         source: 'GitHub',      accent: '#76b900' },
   { key: 'gh_open_issues',         icon: '🐛', label: 'Open Issues',        source: 'GitHub',      accent: '#f59e0b' },
-  { key: 'gh_release_downloads',   icon: '📦', label: 'Release Downloads',  source: 'GitHub',      accent: '#3b82f6' },
+  { key: 'pypi_downloads',   icon: '📦', label: 'PyPI Downloads',  source: 'PyPI',      accent: '#3b82f6' },
   { key: 'gh_watchers',            icon: '👁',  label: 'Watchers',           source: 'GitHub',      accent: '#64748b' },
   { key: 'hf_tabular_likes',       icon: '❤️', label: 'Tabular Likes (HF)',       source: 'HuggingFace', accent: '#a855f7' },
   { key: 'hf_tabular_downloads',   icon: '⬇️', label: 'Tabular Downloads (HF)', source: 'HuggingFace', accent: '#a855f7' },
@@ -471,8 +471,8 @@ function renderCards(data) {
 }
 
 function renderTable(data) {
-  const cols = ['Date','⭐ Stars (GH)','🍴 Forks (GH)','👁 Watch (GH)','🐛 Issues (GH)','📦 Rel DL (GH)','❤️ Tab Likes (HF)','⬇️ Tab DL (HF)','❤️ Rel Likes (HF)','⬇️ Rel DL (HF)','👍 Blog (HF)'];
-  const keys = ['date','gh_stars','gh_forks','gh_watchers','gh_open_issues','gh_release_downloads','hf_tabular_likes','hf_tabular_downloads','hf_relational_likes','hf_relational_downloads','hf_blog_upvotes'];
+  const cols = ['Date','⭐ Stars (GH)','🍴 Forks (GH)','👁 Watch (GH)','🐛 Issues (GH)','📦 PyPI DL','❤️ Tab Likes (HF)','⬇️ Tab DL (HF)','❤️ Rel Likes (HF)','⬇️ Rel DL (HF)','👍 Blog (HF)'];
+  const keys = ['date','gh_stars','gh_forks','gh_watchers','gh_open_issues','pypi_downloads','hf_tabular_likes','hf_tabular_downloads','hf_relational_likes','hf_relational_downloads','hf_blog_upvotes'];
 
   document.getElementById('tableHeader').innerHTML = cols.map(c => `<th>${c}</th>`).join('');
   const body = document.getElementById('tableBody');
@@ -555,7 +555,7 @@ function renderCharts(data) {
     xAxis: { type: 'category', data: dates, axisLabel: { color: '#64748b' }, axisLine: { lineStyle: { color: '#1e293b' } } },
     yAxis: { type: 'value', axisLabel: { color: '#64748b' }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.04)' } } },
     series: [
-      { name: 'Release DLs (GH)', data: data.map(d => d.gh_release_downloads), type: 'bar', itemStyle: { color: '#3b82f6', borderRadius: [4,4,0,0] } },
+      { name: 'PyPI Downloads', data: data.map(d => d.pypi_downloads), type: 'bar', itemStyle: { color: '#3b82f6', borderRadius: [4,4,0,0] } },
       { name: 'Tabular DLs (HF)', data: data.map(d => d.hf_tabular_downloads), type: 'bar', itemStyle: { color: '#a855f7', borderRadius: [4,4,0,0] } },
       { name: 'Relational DLs (HF)', data: data.map(d => d.hf_relational_downloads), type: 'bar', itemStyle: { color: '#ec4899', borderRadius: [4,4,0,0] } },
     ]
