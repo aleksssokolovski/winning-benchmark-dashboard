@@ -341,6 +341,15 @@
     </div>
   </div>
 
+  <!-- Downloads Over Time — full width, most dynamic metric -->
+  <div class="section" style="margin-bottom:24px">
+    <div class="section-header">
+      <h2>📈 Downloads Over Time</h2>
+      <span class="section-badge" style="background:rgba(59,130,246,0.12);color:var(--accent-blue)">Fastest-moving metrics</span>
+    </div>
+    <div id="downloadsTimeChart" style="min-height:420px"></div>
+  </div>
+
   <div class="charts-grid">
     <div class="section">
       <div class="section-header">
@@ -351,7 +360,7 @@
     </div>
     <div class="section">
       <div class="section-header">
-        <h2>🧲 Downloads & PyPI</h2>
+        <h2>🧲 Downloads Breakdown</h2>
         <span class="section-badge" style="background:rgba(245,158,11,0.12);color:var(--accent-orange)">Distribution</span>
       </div>
       <div id="downloadsChart" class="chart-box"></div>
@@ -567,9 +576,40 @@ function renderCharts(data) {
     ]
   });
 
+  // Downloads Over Time — prominent line chart for the fastest-moving metrics
+  const dlTimeChart = echarts.init(document.getElementById('downloadsTimeChart'));
+  dlTimeChart.setOption({
+    ...chartTheme,
+    tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+    legend: { bottom: 0, textStyle: { color: '#94a3b8', fontSize: 11 } },
+    grid: { left: 60, right: 30, top: 30, bottom: 55 },
+    xAxis: { type: 'category', data: dates, axisLabel: { color: '#64748b' }, axisLine: { lineStyle: { color: '#1e293b' } } },
+    yAxis: { type: 'value', axisLabel: { color: '#64748b' }, splitLine: { lineStyle: { color: 'rgba(255,255,255,0.04)' } } },
+    series: [
+      { name: 'Tabular Downloads (HF)', data: data.map(d => d.hf_tabular_downloads), type: 'line', smooth: true,
+        lineStyle: { color: '#a855f7', width: 3 }, itemStyle: { color: '#a855f7' },
+        areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(168,85,247,0.25)' }, { offset: 1, color: 'rgba(168,85,247,0.02)' }
+        ])}
+      },
+      { name: 'Relational Downloads (HF)', data: data.map(d => d.hf_relational_downloads), type: 'line', smooth: true,
+        lineStyle: { color: '#ec4899', width: 3 }, itemStyle: { color: '#ec4899' },
+        areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(236,72,153,0.20)' }, { offset: 1, color: 'rgba(236,72,153,0.02)' }
+        ])}
+      },
+      { name: 'PyPI Downloads', data: data.map(d => d.pypi_downloads), type: 'line', smooth: true,
+        lineStyle: { color: '#3b82f6', width: 3 }, itemStyle: { color: '#3b82f6' },
+        areaStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          { offset: 0, color: 'rgba(59,130,246,0.20)' }, { offset: 1, color: 'rgba(59,130,246,0.02)' }
+        ])}
+      },
+    ]
+  });
+
   // Resize
   window.addEventListener('resize', () => {
-    starsChart.resize(); engChart.resize(); allChart.resize(); dlChart.resize();
+    starsChart.resize(); engChart.resize(); allChart.resize(); dlChart.resize(); dlTimeChart.resize();
   });
 }
 
